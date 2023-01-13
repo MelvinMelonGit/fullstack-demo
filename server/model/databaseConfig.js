@@ -6,7 +6,7 @@ var dbconnect = {
             host: "localhost",
             user: "root",
             password: "password",
-            database: "SPMovies"
+            database: "capstone"
         });     
         return conn;
     }

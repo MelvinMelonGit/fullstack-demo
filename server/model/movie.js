@@ -2,6 +2,29 @@ var dbConfig = require("./databaseConfig");
 
 var movieDB = {
 
+    getAllMoviesCapstone: function(callback) {
+        var dbConn = dbConfig.getConnection();
+
+        dbConn.connect(function(err){
+
+            if (err) {
+
+                return callback(err, null);
+
+            } else {
+
+                var sql = "select * from movie"
+
+                dbConn.query(sql, [], function(err, results){
+
+                    dbConn.end();
+                    return callback(err, results);
+
+                })
+            }
+        })
+        
+    },
     getActiveMovies: function(active, callback) {
         var dbConn = dbConfig.getConnection();
 
@@ -93,6 +116,26 @@ var movieDB = {
                 var sql = 'update movie set name=?, description=?, releaseDate=?, imageURL=?, genreID=?, active=? where movieID=?';
 
                 dbConn.query(sql, [name,description,releaseDate,imageURL,genreID,active,movieID], function (err, results) {
+
+                    dbConn.end();
+                    return callback(err, results);
+                });
+            }                  
+        });
+    },
+    updateMovieCapstone: function (movietitle, moviedesc, movieimage, genreID, movieID, callback) {
+
+        var dbConn = dbConfig.getConnection();
+
+        dbConn.connect(function (err) {
+
+            if (err) {
+                return callback(err, null);
+            } else {
+
+                var sql = 'update movie set movietitle=?, moviedesc=?, movieimage=?, genreID=? where movieID=?';
+
+                dbConn.query(sql, [movietitle,moviedesc,movieimage,genreID,movieID], function (err, results) {
 
                     dbConn.end();
                     return callback(err, results);

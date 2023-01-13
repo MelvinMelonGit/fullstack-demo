@@ -117,6 +117,27 @@ app.get('/movies/active/:active', function (req, res) {
 
 });
 
+//test capstone feature
+//GET /movies
+app.get('/movies', function (req, res) {
+
+   movieDB.getAllMoviesCapstone(function (err, results) {
+
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.type('json');
+            res.send(`{"Message": "Failed to retrieve movies, please try again."}`);
+        } else {
+            res.status(200);
+            res.type('json');
+            res.send(results);
+        }
+
+    });
+
+});
+
 //GET /movies/search/:search
 app.get('/movies/search/:search', function (req, res) {
 
@@ -153,6 +174,33 @@ app.get('/genres', function (req, res) {
             res.status(200);
             res.type('json');
             res.send(results);
+        }
+
+    });
+
+});
+
+//test capstone feature
+app.put('/movie/:movieID', function (req, res) {
+
+    var movieID = req.params.movieID;
+    //retrieve the body params containing movie details
+    var movietitle = req.body.movietitle;
+    var moviedesc = req.body.moviedesc;
+    var movieimage = req.body.movieimage;
+    var genreID = req.body.genreID;
+
+    movieDB.updateMovieCapstone(movietitle, moviedesc, movieimage, genreID,movieID, function (err, results) {
+
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.type('json');
+            res.send(`{"Message": "Failed to add movie, please try again."}`);
+        } else {
+            res.status(200);
+            res.type('json');
+            res.send(`{"Message":"${results.affectedRows} row(s) updated"}`);
         }
 
     });
